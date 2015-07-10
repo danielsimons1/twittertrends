@@ -25,14 +25,14 @@
 
 @interface DetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 @property (strong, nonatomic) PNBarChart *barChart;
 @property (strong, nonatomic) NSMutableData *chartData;
 @property (weak, nonatomic) IBOutlet UIView *chartWrapperView;
 @property (weak, nonatomic) IBOutlet UIView *gaugeWrapperView;
 @property (strong, nonatomic) WMGaugeView *gaugeView;
 @property (weak, nonatomic) IBOutlet SpringButton *popularityButton;
-
+@property (strong, nonatomic) NSMutableArray *friendsArray;
+@property (strong, nonatomic) NSMutableDictionary *friendsStatusTimeLines;
 @property (strong, nonatomic) NSNumber *counter;
 @property (strong, nonatomic) CNPPopupController *shareRatePickerController;
 @end
@@ -41,11 +41,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.canDisplayBannerAds = YES;
-
+    //self.canDisplayBannerAds = YES;
+    self.friendsArray = [NSMutableArray array];
+    self.friendsStatusTimeLines = [NSMutableDictionary dictionary];
     [Flurry logEvent:@"DetailViewController viewDidLoad"];
     
-    self.canDisplayBannerAds = YES;
+    //self.canDisplayBannerAds = YES;
     // Do any additional setup after loading the view.
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -54,8 +55,8 @@
     //self.followerCount.format = @"%d%d.%d%d";
     //[self.followerCount countFrom:0. to:self.count.floatValue];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"Friends" style:UIBarButtonItemStyleBordered target:self action:@selector(addFriends)];
-    self.navItem.leftBarButtonItem = backItem;
-    self.navItem.title = self.candidate.name;
+    self.navigationItem.rightBarButtonItem = backItem;
+    self.navigationItem.title = self.candidate.name;
     [self.navigationController setTitle:self.candidate.name];
     [self.followerCount setText:[DetailViewController abbreviateNumber:self.candidate.followersCount.intValue withDecimal:100]];
     [self.listsCountLabel setText:[DetailViewController abbreviateNumber:self.candidate.listsCount.intValue withDecimal:100]];
@@ -267,7 +268,7 @@
 }
 
 - (void)retrieveFriendsFromTwitter:(NSString *)cursor {
-        
+    if (!self.friendsArray || self.friendsArray.count < 1) {
     NSString *statusesShowEndpoint = @"https://api.twitter.com/1.1/friends/list.json";
     NSDictionary *params = @{@"screen_name" : self.candidate.twittername,@"cursor" : cursor, @"count" : @"200"};
         NSError *clientError;
@@ -277,7 +278,7 @@
                                  parameters:params
                                  error:&clientError];
         self.counter = [NSNumber numberWithInteger:0];
-
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         if (request) {
             [[[Twitter sharedInstance] APIClient]
              sendTwitterRequest:request
@@ -285,67 +286,48 @@
                           NSData *data,
                           NSError *connectionError) {
                  if (data) {
-                     // handle the response data e.g.
-                     
                      
                      NSError *jsonError;
-                     NSDictionary *json = [NSJSONSerialization
-                                      JSONObjectWithData:data
-                                      options:0
-                                      error:&jsonError];
-                     NSArray *jsonDict = json[@"users"];
-                     for (NSDictionary *friend in jsonDict) {
-                         
-                         NSString * statusesEndpoint = @"https://api.twitter.com/1.1/statuses/user_timeline.json";
-                         NSDictionary *params2 = @{@"screen_name" : friend[@"screen_name"], @"include_rts": @"false"};
-                         
-                         NSError *clientError2;
-                         NSURLRequest *request2 = [[[Twitter sharedInstance] APIClient]
-                                                   URLRequestWithMethod:@"GET"
-                                                   URL:statusesEndpoint
-                                                   parameters:params2
-                                                   error:&clientError2];
-                         
-                         [[[Twitter sharedInstance] APIClient]
-                          sendTwitterRequest:request2
-                          completion:^(NSURLResponse *response,
-                                       NSData *data2,
-                                       NSError *connectionError2) {
-                              if (data2) {
-                                  self.counter = [NSNumber numberWithInteger:self.counter.integerValue + 1];
-                                  NSError *jsonError2;
-                                  NSArray *json2 = [NSJSONSerialization
-                                                    JSONObjectWithData:data2
-                                                    options:0
-                                                    error:&jsonError2];
-                                  NSArray *jsonDict2 = json2;
-                                  NSInteger retweetCount = 0;
-                                  for (NSDictionary *tweet in jsonDict2) {
-                                      retweetCount = retweetCount + [tweet[@"retweet_count"] integerValue];
-                                  }
-                                  [[DataAccess sharedInstance] saveOrUpdateCandidate:friend withRetweets:retweetCount isFriend:YES];
-                                  if (self.counter.integerValue == jsonDict.count) {
-                                      if (![[NSString stringWithFormat:@"%@",json[@"next_cursor"]] isEqualToString:@"0"]) {
-                                          [self retrieveFriendsFromTwitter:[NSString stringWithFormat:@"%li",(NSInteger)json[@"next_cursor"]]];
-                                      } else {
-                                          [self didFinishFriendLoad];
-                                      }
-                                  }
-                              } else {
-                                  NSLog(@"Error: %@", connectionError2);
-                              }
-                          }];
-                     }
+                     NSMutableDictionary *json = [NSJSONSerialization
+                                           JSONObjectWithData:data
+                                           options:0
+                                           error:&jsonError];
+                     NSMutableArray *friendsArray = json[@"users"];
+                     
+                     self.friendsArray = friendsArray;
+                     // handle the response data e.g.
+                     
+                     //[self handleFriendsListResponse:self.friendsArray];
+                     [self handleFriendsResponse:self.friendsArray];
                  }
                  else {
                      NSLog(@"Error: %@", connectionError);
+                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"The request cannot be completed at this time." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                     [alertView show];
                  }
              }];
         }
         else {
             NSLog(@"Error: %@", clientError);
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Twitter Error" message:@"The request to Twitter cannot be completed at this time." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alertView show];
         }
+    } else {
+        [self handleFriendsResponse:self.friendsArray];
+    }
 }
+
+- (void)handleFriendsResponse:(NSArray *)friendsArray {
+    for (NSDictionary *friend in friendsArray) {
+        [[DataAccess sharedInstance] saveOrUpdateCandidate:friend withRetweets:0 isFriend:YES];
+    }
+    [self didFinishFriendLoad];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+
 
 - (IBAction)didPressShareButton:(id)sender {
     [Flurry logEvent:@"pressed share button"];

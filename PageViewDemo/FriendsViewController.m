@@ -41,7 +41,6 @@
     [super viewDidLoad];
 
     [Flurry logEvent:@"ViewController viewDidLoad"];
-    self.canDisplayBannerAds = YES;
     //self.canDisplayBannerAds = YES;
     
     self.tableItems = nil;
@@ -52,10 +51,7 @@
     hud.labelText = @"Loading Teams...";
     self.candidateTableView.delegate = self;
     self.candidateTableView.dataSource = self;
-    
-    //PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-    //testObject[@"foo"] = @"bar";
-    //[testObject saveInBackground];
+    self.title = @"Friends";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -135,11 +131,11 @@
     Candidate *candidate = [[[DataAccess sharedInstance] fetchedCandidatesController] objectAtIndexPath:sender];
     FriendsDetailViewController *detailViewController = (FriendsDetailViewController *)[segue destinationViewController];
     detailViewController.interstitialPresentationPolicy = ADInterstitialPresentationPolicyAutomatic;
+    
     [detailViewController setCandidate:candidate];
     [detailViewController setBackgroundImage:[self.cachedImages valueForKey:[NSString stringWithFormat:@"MyBasicCell%li" ,(long)((NSIndexPath*)sender).row]]];
 }
-- (IBAction)didPressDone:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+
+
 
 @end

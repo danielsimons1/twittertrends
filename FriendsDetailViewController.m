@@ -23,7 +23,6 @@
 
 @interface FriendsDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 @property (strong, nonatomic) PNBarChart *barChart;
 @property (strong, nonatomic) NSMutableData *chartData;
 @property (weak, nonatomic) IBOutlet UIView *chartWrapperView;
@@ -41,7 +40,7 @@
     [super viewDidLoad];
     
     [Flurry logEvent:@"FriendsDetailViewController viewDidLoad"];
-    self.canDisplayBannerAds = YES;
+    //self.canDisplayBannerAds = YES;
     // Do any additional setup after loading the view.
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -49,15 +48,15 @@
     
     //self.followerCount.format = @"%d%d.%d%d";
     //[self.followerCount countFrom:0. to:self.count.floatValue];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(goBack)];
-    self.navItem.leftBarButtonItem = backItem;
-    self.navItem.title = self.candidate.name;
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didPressShare)];
+    self.navigationItem.rightBarButtonItem = shareItem;
+    self.title = self.candidate.name;
     [self.navigationController setTitle:self.candidate.name];
     [self.followerCount setText:[DetailViewController abbreviateNumber:self.candidate.followersCount.intValue withDecimal:100]];
     [self.listsCountLabel setText:[DetailViewController abbreviateNumber:self.candidate.listsCount.intValue withDecimal:100]];
     [self.friendsCountLabel setText:[DetailViewController abbreviateNumber:self.candidate.friendsCount.intValue withDecimal:100]];
     [self.tweetsCountLabel setText:[DetailViewController abbreviateNumber:self.candidate.tweetsCount.intValue withDecimal:100]];
-    [self.retweetsCountLabel setText:[DetailViewController abbreviateNumber:self.candidate.retweetsCount.intValue withDecimal:100]];
+    
     //[self.popularityLabel setText:[NSString stringWithFormat:@"%.02f",[DetailViewController popularityScore:self.candidate]]];
     [self.avatarImageView setImage:self.backgroundImage];
     [self.avatarImageView.layer setMasksToBounds:YES];
@@ -65,7 +64,7 @@
     
     self.barChart.delegate = self;
     
-    [self configureGauge];
+    [self getRetweetsForUser:self.candidate];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -129,7 +128,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)didPressShare:(id)sender {
+- (void)didPressShare {
     [Flurry logEvent:@"FriendsDetailViewController pressed share button"];
     
     NSString *primaryText = [NSString stringWithFormat:@"Check out @%@'s social trends. Powered by Unofficial Calculators http://itunes.apple.com/app/id1004557203",self.candidate.twittername];
@@ -212,6 +211,49 @@
         [Flurry logEvent:@"pressed Rate the app"];
         [[UIApplication sharedApplication] openURL:[iRate sharedInstance].ratingsURL];
     }
+}
+
+- (void)getRetweetsForUser:(Candidate *)twitterUser {
+
+    NSString * statusesEndpoint = @"https://api.twitter.com/1.1/statuses/user_timeline.json";
+    NSDictionary *params2 = @{@"screen_name" : twitterUser.twittername, @"include_rts": @"false"};
+    
+    NSError *clientError2;
+    NSURLRequest *request2 = [[[Twitter sharedInstance] APIClient]
+                              URLRequestWithMethod:@"GET"
+                              URL:statusesEndpoint
+                              parameters:params2
+                              error:&clientError2];
+    
+    [[[Twitter sharedInstance] APIClient]
+     sendTwitterRequest:request2
+     completion:^(NSURLResponse *response,
+                  NSData *data2,
+                  NSError *connectionError2) {
+         if (data2) {
+             NSError *jsonError;
+             NSMutableDictionary *json = [NSJSONSerialization
+                                          JSONObjectWithData:data2
+                                          options:0
+                                          error:&jsonError];
+             [self handleFriendTimelineResponse:json forFriend:twitterUser];
+         } else {
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
+             NSLog(@"Error: %@", connectionError2);
+             
+         }
+     }];
+}
+
+- (void)handleFriendTimelineResponse:(NSMutableDictionary *)timelines forFriend:(Candidate *)friend {
+    
+    NSInteger retweetCount = 0;
+    for (NSDictionary *tweet in timelines) {
+        retweetCount = retweetCount + [tweet[@"retweet_count"] integerValue];
+    }
+    friend.retweetsCount = [NSNumber numberWithInteger:retweetCount];
+    [self configureGauge];
+    [self.retweetsCountLabel setText:[DetailViewController abbreviateNumber:self.candidate.retweetsCount.intValue withDecimal:100]];
 }
 
 @end

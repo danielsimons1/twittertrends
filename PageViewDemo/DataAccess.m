@@ -197,6 +197,8 @@
 }
 
 
+
+
 - (void)logout {
     NSFetchRequest * allcandidates = [[NSFetchRequest alloc] init];
     [allcandidates setEntity:[NSEntityDescription entityForName:@"Candidate" inManagedObjectContext:self.managedObjectContext]];

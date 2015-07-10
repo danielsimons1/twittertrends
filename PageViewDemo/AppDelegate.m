@@ -25,9 +25,10 @@
     [UIViewController prepareInterstitialAds];
     // Override point for customization after application launch.
     UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-    pageControl.backgroundColor = [UIColor whiteColor];
+    pageControl.frame = [[UIScreen mainScreen] bounds];
+    //pageControl.backgroundColor = [UIColor whiteColor];
     
     [Fabric with:@[TwitterKit, CrashlyticsKit]];
     

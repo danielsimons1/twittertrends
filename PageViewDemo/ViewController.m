@@ -27,8 +27,8 @@
     [Flurry logEvent:@"ViewController viewDidLoad"];
 
 	// Create the data model
-    _pageTitles = @[@"What is your Twitter Score?", @"Check out your FRIENDS Scores", @"SHARE Scores"];
-    _pageImages = @[@"p1.jpg", @"p3.jpg", @"p2.jpg"];
+    _pageTitles = @[@"What is your Twitter Score?", @"Compare your friends Scores", @"Share Scores"];
+    _pageImages = @[@"image1", @"image3", @"image4"];
     
     
 
@@ -150,7 +150,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     Candidate *candidate = (Candidate *)sender;
-    DetailViewController *detailViewController = (DetailViewController *)[segue destinationViewController];
+    DetailViewController *detailViewController = (DetailViewController *)[[[[segue	destinationViewController] contentViewController] childViewControllers] firstObject];
     [detailViewController setCandidate:candidate];
     [detailViewController setBackgroundImage:self.cachedImage];
 }

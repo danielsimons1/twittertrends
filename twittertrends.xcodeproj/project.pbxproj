@@ -93,6 +93,11 @@
 		51D7E2931B289F4A005AFBE0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D7E2921B289F4A005AFBE0 /* SystemConfiguration.framework */; };
 		51D7E2951B289F59005AFBE0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D7E2941B289F59005AFBE0 /* libz.dylib */; };
 		51D7E2971B289F61005AFBE0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D7E2961B289F61005AFBE0 /* libsqlite3.dylib */; };
+		51DC19461B4DC4F0003FCC4A /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DC193A1B4DC4F0003FCC4A /* LeftMenuViewController.m */; };
+		51DC19471B4DC4F0003FCC4A /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DC193E1B4DC4F0003FCC4A /* RECommonFunctions.m */; };
+		51DC19481B4DC4F0003FCC4A /* RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DC19401B4DC4F0003FCC4A /* RESideMenu.m */; };
+		51DC19491B4DC4F0003FCC4A /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DC19421B4DC4F0003FCC4A /* UIViewController+RESideMenu.m */; };
+		51DC194A1B4DC4F0003FCC4A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51DC19441B4DC4F0003FCC4A /* RootViewController.m */; };
 		F42D5AC31841F8A500F8636D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42D5AC21841F8A500F8636D /* Foundation.framework */; };
 		F42D5AC51841F8A500F8636D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42D5AC41841F8A500F8636D /* CoreGraphics.framework */; };
 		F42D5AC71841F8A500F8636D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42D5AC61841F8A500F8636D /* UIKit.framework */; };
@@ -241,6 +246,17 @@
 		51D7E2921B289F4A005AFBE0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		51D7E2941B289F59005AFBE0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		51D7E2961B289F61005AFBE0 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		51DC193A1B4DC4F0003FCC4A /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = SOURCE_ROOT; };
+		51DC193B1B4DC4F0003FCC4A /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = SOURCE_ROOT; };
+		51DC193D1B4DC4F0003FCC4A /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
+		51DC193E1B4DC4F0003FCC4A /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
+		51DC193F1B4DC4F0003FCC4A /* RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RESideMenu.h; sourceTree = "<group>"; };
+		51DC19401B4DC4F0003FCC4A /* RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RESideMenu.m; sourceTree = "<group>"; };
+		51DC19411B4DC4F0003FCC4A /* UIViewController+RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RESideMenu.h"; sourceTree = "<group>"; };
+		51DC19421B4DC4F0003FCC4A /* UIViewController+RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RESideMenu.m"; sourceTree = "<group>"; };
+		51DC19431B4DC4F0003FCC4A /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = SOURCE_ROOT; };
+		51DC19441B4DC4F0003FCC4A /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = SOURCE_ROOT; };
+		51DC19451B4DC4F0003FCC4A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = SOURCE_ROOT; };
 		F42D5ABF1841F8A500F8636D /* twittertrends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = twittertrends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F42D5AC21841F8A500F8636D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F42D5AC41841F8A500F8636D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -441,6 +457,19 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		51DC193C1B4DC4F0003FCC4A /* RESideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				51DC193D1B4DC4F0003FCC4A /* RECommonFunctions.h */,
+				51DC193E1B4DC4F0003FCC4A /* RECommonFunctions.m */,
+				51DC193F1B4DC4F0003FCC4A /* RESideMenu.h */,
+				51DC19401B4DC4F0003FCC4A /* RESideMenu.m */,
+				51DC19411B4DC4F0003FCC4A /* UIViewController+RESideMenu.h */,
+				51DC19421B4DC4F0003FCC4A /* UIViewController+RESideMenu.m */,
+			);
+			path = RESideMenu;
+			sourceTree = SOURCE_ROOT;
+		};
 		F42D5AB61841F8A500F8636D = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +515,12 @@
 		F42D5AC81841F8A500F8636D /* PageViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				51DC193A1B4DC4F0003FCC4A /* LeftMenuViewController.m */,
+				51DC193B1B4DC4F0003FCC4A /* LeftMenuViewController.h */,
+				51DC193C1B4DC4F0003FCC4A /* RESideMenu */,
+				51DC19431B4DC4F0003FCC4A /* RootViewController.h */,
+				51DC19441B4DC4F0003FCC4A /* RootViewController.m */,
+				51DC19451B4DC4F0003FCC4A /* Constants.h */,
 				515744A11B2A45CA00453536 /* p1.jpg */,
 				515744A21B2A45CA00453536 /* p2.jpg */,
 				515744A31B2A45CA00453536 /* p4.jpg */,
@@ -709,6 +744,7 @@
 				51D7E22F1B2898F9005AFBE0 /* DetailViewController.m in Sources */,
 				51D7E2411B289C30005AFBE0 /* CNPPopupController.m in Sources */,
 				51D7E2451B289C30005AFBE0 /* WMGaugeView.m in Sources */,
+				51DC194A1B4DC4F0003FCC4A /* RootViewController.m in Sources */,
 				51D7E2401B289C30005AFBE0 /* Colours.m in Sources */,
 				51D7E2751B289C68005AFBE0 /* PNScatterChart.m in Sources */,
 				F42D5AD91841F8A500F8636D /* ViewController.m in Sources */,
@@ -724,11 +760,13 @@
 				5157447B1B2A285D00453536 /* BlurView.swift in Sources */,
 				515744921B2A285D00453536 /* TransitionManager.swift in Sources */,
 				51D7E2731B289C68005AFBE0 /* PNPieChart.m in Sources */,
+				51DC19491B4DC4F0003FCC4A /* UIViewController+RESideMenu.m in Sources */,
 				5157448E1B2A285D00453536 /* SpringLabel.swift in Sources */,
 				515744811B2A285D00453536 /* DesignableTextView.swift in Sources */,
 				51D7E2771B289C68005AFBE0 /* PNScatterChartDataItem.m in Sources */,
 				5157447D1B2A285D00453536 /* DesignableImageView.swift in Sources */,
 				51D7E2711B289C68005AFBE0 /* PNLineChartData.m in Sources */,
+				51DC19481B4DC4F0003FCC4A /* RESideMenu.m in Sources */,
 				F42D5AD31841F8A500F8636D /* AppDelegate.m in Sources */,
 				515744851B2A285D00453536 /* KeyboardLayoutConstraint.swift in Sources */,
 				51D7E26E1B289C68005AFBE0 /* PNColor.m in Sources */,
@@ -739,6 +777,7 @@
 				51D7E26D1B289C68005AFBE0 /* PNCircleChart.m in Sources */,
 				515744801B2A285D00453536 /* DesignableTextField.swift in Sources */,
 				515744781B2A285D00453536 /* AsyncButton.swift in Sources */,
+				51DC19471B4DC4F0003FCC4A /* RECommonFunctions.m in Sources */,
 				5157448F1B2A285D00453536 /* SpringTextField.swift in Sources */,
 				5157447C1B2A285D00453536 /* DesignableButton.swift in Sources */,
 				515744891B2A285D00453536 /* SoundPlayer.swift in Sources */,
@@ -749,6 +788,7 @@
 				515744941B2A285D00453536 /* UnwindSegue.swift in Sources */,
 				51D7E26C1B289C68005AFBE0 /* PNChartLabel.m in Sources */,
 				5157448C1B2A285D00453536 /* SpringButton.swift in Sources */,
+				51DC19461B4DC4F0003FCC4A /* LeftMenuViewController.m in Sources */,
 				F42D5ACF1841F8A500F8636D /* main.m in Sources */,
 				515744911B2A285D00453536 /* SpringView.swift in Sources */,
 				51D7E2431B289C30005AFBE0 /* iRate.m in Sources */,

@@ -29,8 +29,14 @@
     [super viewDidLoad];
 
     self.backgroundImageView.image = [UIImage imageNamed:self.imageFile];
+    [self.backgroundImageView setBackgroundColor:[UIColor babyBlueColor]];
     self.titleLabel.text = self.titleText;
-    self.titleLabel.textColor = [UIColor denimColor];
+    self.titleLabel.textColor = [UIColor whiteColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.view layoutSubviews];
 }
 
 - (void)didReceiveMemoryWarning
